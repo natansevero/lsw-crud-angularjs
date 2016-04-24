@@ -27,7 +27,7 @@
     <div class="container">
       <div class="row">
         <div class="pesquisa">
-          <input type="text" class="form-control" placeholder="Pesquise por Produto, por Marca, por Preço ou por Cor">
+          <input type="text" class="form-control" ng-model="buscaCampo" placeholder="Pesquise por Produto, por Marca, por Preço ou por Cor">
         </div>
       </div>
 
@@ -45,7 +45,7 @@
             </thead>
 
             <tbody>
-              <tr ng-class="{selecionado: instrumento.selecionado, sair_selecao: !instrumento.selecionado}" ng-repeat="instrumento in instrumentos | orderBy:'produto'">
+              <tr ng-class="{selecionado: instrumento.selecionado, sair_selecao: !instrumento.selecionado}" ng-repeat="instrumento in instrumentos | filter:buscaCampo | orderBy:'produto'">
                 <td><input type="checkbox" ng-model="instrumento.selecionado"> </td>
                 <td>{{instrumento.produto}}</td>
                 <td>{{instrumento.marca}}</td>
@@ -63,8 +63,8 @@
     <div class="container">
       <div class="buttons">
         <button type="button" class="btn btn-success col-lg-offset-1 col-lg-2" data-toggle="modal" data-target="#modalCadastrar" name="Cadastrar">Cadastrar</button>
-        <button type="button" class="btn btn-warning col-lg-offset-2 col-lg-2" data-toggle="modal" data-target="#modalEditar" name="Editar">Editar</button>
-        <button type="button" class="btn btn-danger col-lg-offset-2 col-lg-2" name="Excluir">Excluir</button>
+        <button type="button" class="btn btn-warning col-lg-offset-2 col-lg-2" data-toggle="modal" ng-click="editarInstrumento(instrumentos)" ng-disabled="!habBotaoEditar(instrumentos)" data-target="#modalEditar" name="Editar">Editar</button>
+        <button type="button" class="btn btn-danger col-lg-offset-2 col-lg-2" ng-click="excluirInstrumento(instrumentos)" ng-disabled="!habBotaoExcluir(instrumentos)" name="Excluir">Excluir</button>
       </div>
     </div> <!-- Container -->
 
@@ -115,8 +115,8 @@
                 <div class="alert alert-danger" ng-show="cadastroForm.cor.$error.required && cadastroForm.cor.$dirty">
                   O campo "Cor" precisa ser preenchido!
                 </div>
-                {{cadastroForm.$valid}}
-                {{cadastroForm.$invalid}}
+                <!-- {{cadastroForm.$valid}}
+                {{cadastroForm.$invalid}} -->
               </form>
             </div>
             <div class="modal-footer">
@@ -138,10 +138,48 @@
               <h4 class="modal-title">Editar Instrumento</h4>
             </div>
             <div class="modal-body">
+              <form name="editarForm" role="form" ng-repeat="i in instEditar">
+                <div class="form-group">
+                  <label for="">Produto</label>
+                  <input type="text" class="form-control" name="produto" ng-model="i.produto" value= {{i.produto}} ng-required="true">
+                </div>
 
+                <div class="alert alert-danger" ng-show="editarForm.produto.$error.required && editarForm.produto.$dirty">
+                  O campo "Produto" precisa ser preenchido!
+                </div>
+
+                <div class="form-group">
+                  <label for="">Marca</label>
+                  <input type="text" class="form-control" name="marca" ng-model="i.marca" value= {{i.marca}} ng-required="true">
+                </div>
+
+                <div class="alert alert-danger" ng-show="editarForm.marca.$error.required && editarForm.marca.$dirty">
+                  O campo "Marca" precisa ser preenchido!
+                </div>
+
+                <div class="form-group">
+                  <label for="">Preço</label>
+                  <input type="number" class="form-control" name="preco" ng-model="i.preco" value= {{i.preco}} ng-required="true">
+                </div>
+
+                <div class="alert alert-danger" ng-show="editarForm.preco.$error.required && editarForm.preco.$dirty">
+                  O campo "Preço" precisa ser preenchido!
+                </div>
+
+                <div class="form-group">
+                  <label for="">Cor</label>
+                  <input type="text" class="form-control" name="cor" ng-model="i.cor" value= {{i.cor}} ng-required="true">
+                </div>
+
+                <div class="alert alert-danger" ng-show="editarForm.cor.$error.required && editarForm.cor.$dirty">
+                  O campo "Cor" precisa ser preenchido!
+                </div>
+                <!-- {{editarForm.$valid}}
+                {{editarForm.$invalid}} -->
+              </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-warning col-lg-12" ng-click="">Editar</button>
+              <button type="button" class="btn btn-warning col-lg-12" ng-disabled="" data-dismiss="modal">Editar</button>
             </div>
           </div> <!-- Fim conteudo modal -->
 
