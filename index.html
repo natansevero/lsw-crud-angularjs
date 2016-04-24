@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="instMusic">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CRUD de Instrumentos Musicais</title>
+    <!-- style.css -->
+    <link rel="stylesheet" type="text/css" href="css/style.css" media="screen">
+    <!-- CSS Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css" media="screen">
+    <!-- AngularJS -->
+    <script src="lib/angular/angular.min.js" charset="utf-8"></script>
+    <script src="lib/angular/angular-locate_pt-br.js" charset="utf-8"></script>
+    <!-- app.js -->
+    <script src="js/app.js" charset="utf-8"></script>
+    <!-- instMusicCtrl.js -->
+    <script src="js/controllers/instMusicCtrl.js" charset="utf-8"></script>
+
+  </head>
+  <body ng-controller="instMusicCtrl">
+    <div class="container">
+      <div class="jumbotron">
+        <h1 class="text-center">Single Page Aplication - CRUD de Instrumentos Musicais</h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="pesquisa">
+          <input type="text" class="form-control" placeholder="Pesquise por Produto, por Marca, por Preço ou por Cor">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="table1 table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th> </th>
+                <th>Produto</th>
+                <th>Marca</th>
+                <th>Preço</th>
+                <th>Cor</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr ng-class="{selecionado: instrumento.selecionado, sair_selecao: !instrumento.selecionado}" ng-repeat="instrumento in instrumentos | orderBy:'produto'">
+                <td><input type="checkbox" ng-model="instrumento.selecionado"> </td>
+                <td>{{instrumento.produto}}</td>
+                <td>{{instrumento.marca}}</td>
+                <td>{{instrumento.preco | currency}}</td>
+                <td>{{instrumento.cor}}</td>
+              </tr>
+            </tbody>
+
+          </table> <!-- table -->
+        </div> <!-- table-responsive -->
+      </div> <!-- Container -->
+      </div>
+
+
+    <div class="container">
+      <div class="buttons">
+        <button type="button" class="btn btn-success col-lg-offset-1 col-lg-2" data-toggle="modal" data-target="#modalCadastrar" name="Cadastrar">Cadastrar</button>
+        <button type="button" class="btn btn-warning col-lg-offset-2 col-lg-2" data-toggle="modal" data-target="#modalEditar" name="Editar">Editar</button>
+        <button type="button" class="btn btn-danger col-lg-offset-2 col-lg-2" name="Excluir">Excluir</button>
+      </div>
+    </div> <!-- Container -->
+
+    <!-- Modal Cadastrar -->
+    <div class="modal fade" id="modalCadastrar" role="dialog">
+        <div class="modal-dialog">
+          <!-- Conteudo da Modal -->
+          <div class="modal-content">
+            <div class="modal-header">
+              <!-- X no conto superior direito -->
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Cadastrar Instrumento</h4>
+            </div>
+            <div class="modal-body">
+              <form name="cadastroForm" role="form">
+                <div class="form-group">
+                  <label for="">Produto</label>
+                  <input type="text" class="form-control" name="produto" ng-model="instrumento.produto" ng-required="true">
+                </div>
+
+                <div class="alert alert-danger" ng-show="cadastroForm.produto.$error.required && cadastroForm.produto.$dirty">
+                  O campo "Produto" precisa ser preenchido!
+                </div>
+
+                <div class="form-group">
+                  <label for="">Marca</label>
+                  <input type="text" class="form-control" name="marca" ng-model="instrumento.marca"  ng-required="true">
+                </div>
+
+                <div class="alert alert-danger" ng-show="cadastroForm.marca.$error.required && cadastroForm.marca.$dirty">
+                  O campo "Marca" precisa ser preenchido!
+                </div>
+
+                <div class="form-group">
+                  <label for="">Preço</label>
+                  <input type="number" class="form-control" name="preco" ng-model="instrumento.preco" ng-required="true">
+                </div>
+
+                <div class="alert alert-danger" ng-show="cadastroForm.preco.$error.required && cadastroForm.preco.$dirty">
+                  O campo "Preço" precisa ser preenchido!
+                </div>
+
+                <div class="form-group">
+                  <label for="">Cor</label>
+                  <input type="text" class="form-control" name="cor" ng-model="instrumento.cor" ng-required="true">
+                </div>
+
+                <div class="alert alert-danger" ng-show="cadastroForm.cor.$error.required && cadastroForm.cor.$dirty">
+                  O campo "Cor" precisa ser preenchido!
+                </div>
+                {{cadastroForm.$valid}}
+                {{cadastroForm.$invalid}}
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success col-lg-12" ng-click="cadastrarInstrumento(instrumento)" ng-disabled="cadastroForm.$invalid">Cadastrar</button>
+            </div>
+          </div> <!-- Fim conteudo modal -->
+
+        </div> <!-- Modal Dialog -->
+    </div> <!-- Fim MODAL -->
+
+    <!-- Modal Editar -->
+    <div class="modal fade" id="modalEditar" role="dialog">
+        <div class="modal-dialog">
+          <!-- Conteudo da Modal -->
+          <div class="modal-content">
+            <div class="modal-header">
+              <!-- X no conto superior direito -->
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Editar Instrumento</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-warning col-lg-12" ng-click="">Editar</button>
+            </div>
+          </div> <!-- Fim conteudo modal -->
+
+        </div> <!-- Modal Dialog -->
+    </div> <!-- Fim MODAL -->
+
+  </body>
+  <!-- Biblioteca JQuery -->
+  <script type="text/javascript" src="lib/bootstrap/js/jquery.min.js"></script>
+  <!-- JavaScript Bootstrap -->
+  <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+</html>

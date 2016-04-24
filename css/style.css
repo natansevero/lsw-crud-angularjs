@@ -1,0 +1,44 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.table1 {
+    /*border: 2px solid red;*/
+}
+
+.pesquisa {
+  margin-bottom: 20px;
+}
+
+.buttons {
+  /*border: 2px solid green;*/
+  margin-top: 20px;
+  padding-bottom: 100px;
+}
+
+@keyframes example_selecao {
+    0%   {background-color: white;}
+    25%  {background-color: #f9680b;}
+}
+
+.selecionado {
+  background-color: #f9680b;
+  animation-name: example_selecao;
+  animation-duration: 4s;
+  color: white;
+  font-weight: bolder;
+}
+
+@keyframes example_sair_selecao {
+    0%   {background-color: #f9680b;}
+    25%  {background-color: white;}
+}
+
+.sair_selecao {
+  background-color: white;
+  color: black;
+  font-weight: none;
+  animation-name: example_sair_selecao;
+  animation-duration: 4s;
+}
